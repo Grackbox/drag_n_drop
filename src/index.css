@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+.container {
+  padding-top: 10%;
+  display: flex;
+}
+.container ul {
+  min-height: 100%;
+  width: 150px;
+  display: flow-root;
+  list-style-type: none;
+  padding: 5px;
+  margin-right: 5px;
+  border: solid black 1px;
+}
+.container ul li {
+  padding: 5px;
+  margin: 5px;
+  border: solid black 1px;
+}
+
+.hoverable {
+  background-color: yellowgreen;
+}
+.dragged {
+  background-color: rgb(103, 202, 158);
+}

@@ -13,6 +13,37 @@ export const App = () => {
   const [currentTargetItem, setCurrentTargetItem] = useState(null);
   const prevTargetRef = useRef(null);
 
+  const check = (event) => {
+    const closestUl = event.target.closest("ul");
+
+    if (closestUl) {
+      const listItems = closestUl.querySelectorAll("li");
+
+      if (listItems.length > 0) {
+        let closestLi = null;
+        let minDistance = Infinity;
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+
+        listItems.forEach((li) => {
+          const rect = li.getBoundingClientRect();
+
+          const liCenterX = rect.left + rect.width / 2;
+          const liCenterY = rect.top + rect.height / 2;
+
+          const distance = Math.sqrt(
+            Math.pow(mouseX - liCenterX, 2) + Math.pow(mouseY - liCenterY, 2)
+          );
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestLi = li;
+          }
+        });
+      }
+    }
+  };
+
   const handleDragStart = (event) => {
     setCurrentDragItem({
       index: event.target.getAttribute("data-key"),
@@ -35,7 +66,6 @@ export const App = () => {
       console.log("111");
     }
 
-    // Обновляем реф с текущим значением
     prevTargetRef.current = newTargetItem;
   };
 
@@ -64,7 +94,11 @@ export const App = () => {
       <div className="container">
         {cards.map((ul, ulIndex) => {
           return (
-            <ul key={`cardsUlId_${ulIndex}`} data-key={ulIndex}>
+            <ul
+              key={`cardsUlId_${ulIndex}`}
+              data-key={ulIndex}
+              onDragOver={check}
+            >
               {ul.map((li, liIndex) => {
                 const isHovered =
                   ulIndex == currentTargetItem?.basket &&
